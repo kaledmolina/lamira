@@ -23,6 +23,8 @@ export async function GET() {
       totalViews,
       recentArticles,
       recentLogs,
+      topArticles,
+      categories,
     ] = await Promise.all([
       db.article.count(),
       db.article.count({ where: { status: "PUBLISHED" } }),
@@ -45,7 +47,28 @@ export async function GET() {
           user: { select: { id: true, name: true, email: true } },
         },
       }),
+      db.article.findMany({
+        take: 5,
+        orderBy: { views: "desc" },
+        select: {
+          title: true,
+          views: true,
+        },
+      }),
+      db.category.findMany({
+        select: {
+          name: true,
+          _count: {
+            select: { articles: true },
+          },
+        },
+      }),
     ]);
+
+    const categoriesBreakdown = categories.map((c) => ({
+      name: c.name,
+      count: c._count.articles,
+    }));
 
     return NextResponse.json({
       totalArticles,
@@ -71,8 +94,11 @@ export async function GET() {
         details: log.details,
         createdAt: log.createdAt,
       })),
+      topArticles,
+      categoriesBreakdown,
     });
   } catch (error) {
+    console.error(error);
     return NextResponse.json(
       { error: "Failed to fetch stats" },
       { status: 500 }

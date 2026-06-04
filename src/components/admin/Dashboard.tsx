@@ -23,6 +23,19 @@ import {
 } from '@/components/ui/table'
 import { useAdminStore, type Stats } from '@/store/admin-store'
 import { format } from 'date-fns'
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+  Legend,
+} from 'recharts'
 
 interface DashboardProps {
   isAdmin: boolean
@@ -280,6 +293,88 @@ function RecentLogs({ stats }: { stats: Stats }) {
   )
 }
 
+const CHART_COLORS = ['#6366f1', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4']
+
+function DashboardCharts({ stats }: { stats: Stats }) {
+  const topArticlesData = stats.topArticles || []
+  const categoriesData = stats.categoriesBreakdown || []
+
+  return (
+    <div className="grid gap-6 md:grid-cols-2">
+      {/* Popular Articles Chart */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-base">Popular Articles (Views)</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="h-80 w-full">
+            {topArticlesData.length > 0 ? (
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={topArticlesData} margin={{ top: 20, right: 10, left: -20, bottom: 20 }}>
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                  <XAxis 
+                    dataKey="title" 
+                    tickFormatter={(value) => value.length > 15 ? `${value.substring(0, 15)}...` : value}
+                    tick={{ fontSize: 11 }}
+                  />
+                  <YAxis tick={{ fontSize: 11 }} />
+                  <Tooltip 
+                    contentStyle={{ backgroundColor: 'hsl(var(--background))', borderColor: 'hsl(var(--border))', borderRadius: '8px' }}
+                    labelStyle={{ fontWeight: 'bold' }}
+                  />
+                  <Bar dataKey="views" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            ) : (
+              <div className="flex h-full items-center justify-center text-sm text-muted-foreground">
+                No view statistics available yet.
+              </div>
+            )}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Category Breakdown Chart */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-base">Articles per Category</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="h-80 w-full flex items-center justify-center">
+            {categoriesData.length > 0 && categoriesData.some(c => c.count > 0) ? (
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={categoriesData}
+                    dataKey="count"
+                    nameKey="name"
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={80}
+                    label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
+                    labelLine={false}
+                  >
+                    {categoriesData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={CHART_COLORS[index % CHART_COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <Tooltip 
+                    contentStyle={{ backgroundColor: 'hsl(var(--background))', borderColor: 'hsl(var(--border))', borderRadius: '8px' }}
+                  />
+                </PieChart>
+              </ResponsiveContainer>
+            ) : (
+              <div className="flex h-full items-center justify-center text-sm text-muted-foreground">
+                No categories statistics available yet.
+              </div>
+            )}
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  )
+}
+
 export default function Dashboard({ isAdmin }: DashboardProps) {
   const { stats, isLoading } = useAdminStore()
 
@@ -295,6 +390,9 @@ export default function Dashboard({ isAdmin }: DashboardProps) {
       ) : (
         <StatsGrid stats={stats} />
       )}
+
+      {/* Interactive Charts */}
+      {stats && <DashboardCharts stats={stats} />}
 
       {/* Recent Content */}
       {stats && (

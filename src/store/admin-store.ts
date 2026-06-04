@@ -98,6 +98,8 @@ export interface Stats {
   totalViews: number
   recentArticles: Pick<Article, 'id' | 'title' | 'slug' | 'status' | 'createdAt' | 'author' | 'category'>[]
   recentLogs: Pick<SystemLog, 'id' | 'action' | 'userId' | 'userName' | 'details' | 'createdAt'>[]
+  topArticles?: { title: string; views: number }[]
+  categoriesBreakdown?: { name: string; count: number }[]
 }
 
 export interface SiteSettings {

@@ -1,8 +1,8 @@
 'use client'
 
-import { useEffect, useCallback } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { format } from 'date-fns'
-import { ArrowLeft, Eye, Clock, User, Tag } from 'lucide-react'
+import { ArrowLeft, Eye, Clock, User, Tag, Share2, Check, Link, MessageCircle } from 'lucide-react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import ReactMarkdown from 'react-markdown'
@@ -12,6 +12,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { toast } from 'sonner'
 
 interface RelatedArticleProps {
   article: Article
@@ -59,6 +60,21 @@ export function ArticleDetail() {
   const fetchArticles = usePublicStore((s) => s.fetchArticles)
   const fetchArticle = usePublicStore((s) => s.fetchArticle)
 
+  const [scrollProgress, setScrollProgress] = useState(0)
+  const [copied, setCopied] = useState(false)
+
+  // Reading progress tracker
+  useEffect(() => {
+    const handleScroll = () => {
+      const totalHeight = document.documentElement.scrollHeight - window.innerHeight
+      if (totalHeight > 0) {
+        setScrollProgress((window.scrollY / totalHeight) * 100)
+      }
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
   // Fetch related articles when viewing an article
   useEffect(() => {
     if (selectedArticle?.categoryId) {
@@ -78,6 +94,32 @@ export function ArticleDetail() {
     },
     [fetchArticle]
   )
+
+  const handleCopyLink = useCallback(() => {
+    if (typeof window !== 'undefined') {
+      const url = `${window.location.origin}/article/${selectedArticle?.id}`
+      navigator.clipboard.writeText(url).then(() => {
+        setCopied(true)
+        toast.success('Link copied to clipboard!')
+        setTimeout(() => setCopied(false), 2000)
+      })
+    }
+  }, [selectedArticle?.id])
+
+  const handleShareTwitter = useCallback(() => {
+    if (typeof window !== 'undefined' && selectedArticle) {
+      const text = encodeURIComponent(`Check out this article: ${selectedArticle.title}`)
+      const url = encodeURIComponent(`${window.location.origin}/article/${selectedArticle.id}`)
+      window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank')
+    }
+  }, [selectedArticle])
+
+  const handleShareWhatsApp = useCallback(() => {
+    if (typeof window !== 'undefined' && selectedArticle) {
+      const text = encodeURIComponent(`Check out this article: ${selectedArticle.title} - ${window.location.origin}/article/${selectedArticle.id}`)
+      window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank')
+    }
+  }, [selectedArticle])
 
   // Loading state
   if (isLoading && !selectedArticle) {
@@ -111,6 +153,10 @@ export function ArticleDetail() {
     ? format(new Date(selectedArticle.publishedAt), 'MMMM d, yyyy')
     : ''
 
+  // Estimate reading time (average 200 words per minute)
+  const words = selectedArticle.content ? selectedArticle.content.split(/\s+/).filter(Boolean).length : 0
+  const readingTime = Math.max(1, Math.round(words / 200))
+
   // Filter out current article from related articles
   const relatedArticles = articles
     .filter((a) => a.id !== selectedArticle.id)
@@ -123,6 +169,12 @@ export function ArticleDetail() {
       transition={{ duration: 0.4, ease: 'easeOut' }}
       className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8"
     >
+      {/* Scroll Progress Bar */}
+      <div 
+        className="fixed top-0 left-0 right-0 h-1 bg-destructive z-[999] transition-all duration-75 origin-left"
+        style={{ transform: `scaleX(${scrollProgress / 100})` }}
+      />
+
       {/* Back Button */}
       <Button
         variant="ghost"
@@ -167,37 +219,74 @@ export function ArticleDetail() {
           </h1>
 
           {/* Author & Meta */}
-          <div className="mb-6 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-            {selectedArticle.author && (
-              <div className="flex items-center gap-2">
-                {selectedArticle.author.avatar ? (
-                  <Image
-                    src={selectedArticle.author.avatar}
-                    alt={selectedArticle.author.name}
-                    width={40}
-                    height={40}
-                    className="rounded-full"
-                  />
-                ) : (
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted">
-                    <User className="h-5 w-5" />
+          <div className="mb-6 flex flex-wrap items-center justify-between gap-4 text-sm text-muted-foreground">
+            <div className="flex items-center gap-4">
+              {selectedArticle.author && (
+                <div className="flex items-center gap-2">
+                  {selectedArticle.author.avatar ? (
+                    <Image
+                      src={selectedArticle.author.avatar}
+                      alt={selectedArticle.author.name}
+                      width={40}
+                      height={40}
+                      className="rounded-full"
+                    />
+                  ) : (
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted">
+                      <User className="h-5 w-5" />
+                    </div>
+                  )}
+                  <div>
+                    <p className="font-medium text-foreground">{selectedArticle.author.name}</p>
+                    <p className="text-xs text-muted-foreground">Author</p>
                   </div>
-                )}
-                <div>
-                  <p className="font-medium text-foreground">{selectedArticle.author.name}</p>
-                  <p className="text-xs text-muted-foreground">Author</p>
                 </div>
-              </div>
-            )}
-            {publishedDate && (
+              )}
+              {publishedDate && (
+                <div className="flex items-center gap-1.5 text-sm">
+                  <Clock className="h-4 w-4" />
+                  {publishedDate}
+                </div>
+              )}
               <div className="flex items-center gap-1.5 text-sm">
                 <Clock className="h-4 w-4" />
-                {publishedDate}
+                {readingTime} min read
               </div>
-            )}
-            <div className="flex items-center gap-1.5 text-sm">
-              <Eye className="h-4 w-4" />
-              {selectedArticle.views} views
+              <div className="flex items-center gap-1.5 text-sm">
+                <Eye className="h-4 w-4" />
+                {selectedArticle.views} views
+              </div>
+            </div>
+
+            {/* Social Share Buttons */}
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleCopyLink}
+                className="h-8 gap-1.5 text-xs"
+              >
+                {copied ? <Check className="h-3.5 w-3.5 text-green-500" /> : <Link className="h-3.5 w-3.5" />}
+                Copy Link
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleShareTwitter}
+                className="h-8 gap-1.5 text-xs hover:text-sky-400"
+              >
+                <Share2 className="h-3.5 w-3.5" />
+                X / Twitter
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleShareWhatsApp}
+                className="h-8 gap-1.5 text-xs hover:text-green-500"
+              >
+                <MessageCircle className="h-3.5 w-3.5" />
+                WhatsApp
+              </Button>
             </div>
           </div>
 

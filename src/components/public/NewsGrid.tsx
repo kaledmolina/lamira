@@ -1,12 +1,13 @@
 'use client'
 
-import { useCallback } from 'react'
-import { motion } from 'framer-motion'
-import { Newspaper } from 'lucide-react'
+import { useCallback, useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Newspaper, SlidersHorizontal } from 'lucide-react'
 import { usePublicStore } from '@/store/public-store'
 import { ArticleCard } from './ArticleCard'
 import { CategoryBadge } from './CategoryBadge'
 import { Skeleton } from '@/components/ui/skeleton'
+import { Button } from '@/components/ui/button'
 import {
   Pagination,
   PaginationContent,
@@ -27,6 +28,10 @@ export function NewsGrid() {
   const selectCategory = usePublicStore((s) => s.selectCategory)
   const fetchArticle = usePublicStore((s) => s.fetchArticle)
   const setPage = usePublicStore((s) => s.setPage)
+  const searchQuery = usePublicStore((s) => s.searchQuery)
+  const search = usePublicStore((s) => s.search)
+
+  const [sortBy, setSortBy] = useState<'latest' | 'views'>('latest')
 
   const handleArticleClick = useCallback(
     (id: string) => {
@@ -42,6 +47,16 @@ export function NewsGrid() {
     },
     [selectCategory]
   )
+
+  // Sort articles locally
+  const sortedArticles = [...articles].sort((a, b) => {
+    if (sortBy === 'views') {
+      return b.views - a.views
+    }
+    const dateA = a.publishedAt ? new Date(a.publishedAt).getTime() : new Date(a.createdAt).getTime()
+    const dateB = b.publishedAt ? new Date(b.publishedAt).getTime() : new Date(b.createdAt).getTime()
+    return dateB - dateA
+  })
 
   // Loading skeletons
   if (isLoading && articles.length === 0) {
@@ -82,16 +97,19 @@ export function NewsGrid() {
         <Newspaper className="mb-4 h-12 w-12 text-muted-foreground/40" />
         <h3 className="mb-2 text-lg font-semibold text-foreground">No articles found</h3>
         <p className="mb-4 text-sm text-muted-foreground">
-          {selectedCategory
-            ? 'No articles in this category yet.'
+          {selectedCategory || searchQuery
+            ? 'No articles match your filters.'
             : 'Start by publishing your first article.'}
         </p>
-        {selectedCategory && (
+        {(selectedCategory || searchQuery) && (
           <button
-            onClick={() => handleCategorySelect(null)}
+            onClick={() => {
+              handleCategorySelect(null)
+              search('')
+            }}
             className="text-sm font-medium text-destructive hover:underline"
           >
-            View all articles
+            Clear all filters
           </button>
         )}
       </section>
@@ -130,26 +148,83 @@ export function NewsGrid() {
         </div>
       )}
 
-      {/* Section header */}
-      <div className="mb-6 flex items-center gap-3">
-        <div className="h-px flex-1 bg-border" />
-        <h2 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-          {selectedCategory
-            ? categories.find((c) => c.slug === selectedCategory)?.name || 'Latest'
-            : 'Latest Stories'}
-        </h2>
-        <div className="h-px flex-1 bg-border" />
+      {/* Search status banner */}
+      {searchQuery && (
+        <div className="mb-6 flex items-center justify-between rounded-lg border border-border bg-muted/40 px-4 py-3">
+          <div className="flex items-center gap-2 text-sm">
+            <span className="text-muted-foreground">Showing search results for:</span>
+            <span className="font-semibold text-foreground">"{searchQuery}"</span>
+          </div>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => search('')}
+            className="h-7 text-xs text-destructive hover:bg-destructive/10"
+          >
+            Clear Search
+          </Button>
+        </div>
+      )}
+
+      {/* Section header & sorting */}
+      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-1 items-center gap-3">
+          <h2 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground whitespace-nowrap">
+            {selectedCategory
+              ? categories.find((c) => c.slug === selectedCategory)?.name || 'Latest'
+              : 'Latest Stories'}
+          </h2>
+          <div className="h-px w-full bg-border" />
+        </div>
+
+        {/* Sorting Controls */}
+        <div className="flex items-center gap-2 self-end sm:self-auto">
+          <SlidersHorizontal className="h-3.5 w-3.5 text-muted-foreground" />
+          <span className="text-xs text-muted-foreground mr-1">Sort:</span>
+          <div className="inline-flex rounded-lg bg-muted p-0.5">
+            <button
+              onClick={() => setSortBy('latest')}
+              className={`rounded-md px-2.5 py-1 text-xs font-medium transition-all ${
+                sortBy === 'latest'
+                  ? 'bg-background text-foreground shadow-sm'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              Latest
+            </button>
+            <button
+              onClick={() => setSortBy('views')}
+              className={`rounded-md px-2.5 py-1 text-xs font-medium transition-all ${
+                sortBy === 'views'
+                  ? 'bg-background text-foreground shadow-sm'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              Popular
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* Article Grid */}
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {articles.map((article, index) => (
-          <ArticleCard
-            key={article.id}
-            article={article}
-            onClick={() => handleArticleClick(article.id)}
-          />
-        ))}
+        <AnimatePresence mode="popLayout">
+          {sortedArticles.map((article) => (
+            <motion.div
+              key={article.id}
+              layout
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.3 }}
+            >
+              <ArticleCard
+                article={article}
+                onClick={() => handleArticleClick(article.id)}
+              />
+            </motion.div>
+          ))}
+        </AnimatePresence>
       </div>
 
       {/* Loading more indicator */}
