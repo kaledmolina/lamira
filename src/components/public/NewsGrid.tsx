@@ -348,43 +348,6 @@ export function NewsGrid() {
                 ))}
             </div>
           </div>
-
-          {/* Newsletter Box */}
-          <div className="rounded-2xl border border-border/40 bg-gradient-to-br from-primary/5 to-accent/5 p-6 backdrop-blur-sm relative overflow-hidden group">
-            {/* Ambient Background Glow */}
-            <div className="absolute -right-10 -bottom-10 h-32 w-32 rounded-full bg-primary/10 blur-2xl group-hover:bg-primary/15 transition-all duration-500" />
-            
-            <h3 className="text-sm font-bold font-heading mb-1.5 text-foreground flex items-center gap-1.5">
-              Boletín Informativo
-            </h3>
-            <p className="text-xs leading-relaxed text-muted-foreground mb-4">
-              Suscríbete para recibir los artículos más leídos y debates de actualidad en tu bandeja de entrada.
-            </p>
-            
-            <form 
-              onSubmit={(e) => {
-                e.preventDefault()
-                const form = e.currentTarget
-                const input = form.elements.namedItem('email') as HTMLInputElement
-                if (input.value) {
-                  alert(`¡Gracias por suscribirte con: ${input.value}!`)
-                  input.value = ''
-                }
-              }}
-              className="space-y-2 relative z-10"
-            >
-              <Input
-                name="email"
-                type="email"
-                placeholder="tu@email.com"
-                required
-                className="h-9 rounded-xl border-border bg-card/65 text-xs"
-              />
-              <Button type="submit" className="w-full h-9 rounded-xl text-xs font-semibold shadow-md shadow-primary/20">
-                Suscribirse
-              </Button>
-            </form>
-          </div>
         </aside>
       </div>
     </section>
