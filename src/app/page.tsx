@@ -43,18 +43,24 @@ function PublicPortal({ onLoginClick }: { onLoginClick: () => void }) {
   const categories = usePublicStore((s) => s.categories)
   const isLoading = usePublicStore((s) => s.isLoading)
 
-  useEffect(() => {
-    fetchCategories()
-    fetchSettings()
-  }, [fetchCategories, fetchSettings])
+  const [isInitialLoading, setIsInitialLoading] = useState(true)
 
   useEffect(() => {
-    if (currentView === 'home') {
-      fetchArticles({ limit: 16 })
+    const loadData = async () => {
+      try {
+        await Promise.all([
+          fetchCategories(),
+          fetchSettings(),
+          fetchArticles({ limit: 16 })
+        ])
+      } catch (err) {
+        console.error("Error loading initial data:", err)
+      } finally {
+        setIsInitialLoading(false)
+      }
     }
-  }, [currentView, fetchArticles])
-
-  const isInitialLoading = Object.keys(settings).length === 0 || categories.length === 0 || (isLoading && articles.length === 0)
+    loadData()
+  }, [fetchCategories, fetchSettings, fetchArticles])
 
   if (isInitialLoading) {
     return (
