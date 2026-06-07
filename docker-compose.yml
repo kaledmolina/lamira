@@ -1,33 +1,33 @@
 services:
   db:
     image: mysql:8.0
-    container_name: mysql-database-contexto
+    container_name: mysql-database-elpulso
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: contexto_db
+      MYSQL_DATABASE: elpulso_db
     # Los puertos 3306 se eliminan para producción por seguridad y para evitar conflictos.
     # La web se conecta internamente a través de la red del contenedor.
     volumes:
-      - mysql_data_contexto:/var/lib/mysql
+      - mysql_data_elpulso:/var/lib/mysql
 
   web:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: nextjs-web-app-contexto
+    container_name: nextjs-web-app-elpulso
     ports:
-      - "127.0.0.1:3007:3000" # Modificado para obligar a pasar por CloudPanel en puerto 3007 (para evitar choques con puerto 3006 de nexoco, 3005 de vozpublica, 3004 de enfoque360 y 3003 de puntonews)
+      - "127.0.0.1:3008:3000" # Modificado para obligar a pasar por CloudPanel en puerto 3008 (para evitar choques con puerto 3007 de contexto, 3006 de nexoco, 3005 de vozpublica, 3004 de enfoque360 y 3003 de puntonews)
     depends_on:
       - db
     environment:
-      - DATABASE_URL=mysql://root:rootpassword@db:3306/contexto_db
-      - NEXTAUTH_URL=https://contexto.click # CRÍTICO para que el login funcione en producción
+      - DATABASE_URL=mysql://root:rootpassword@db:3306/elpulso_db
+      - NEXTAUTH_URL=https://elpulso.site # CRÍTICO para que el login funcione en producción
       - NEXTAUTH_SECRET=news-portal-secret-key-change-in-production
       - HOSTNAME=0.0.0.0 # <-- LA SOLUCIÓN AL ERROR 502
     volumes:
-      - /home/contexto/htdocs/contexto.click/public/uploads:/app/public/uploads
+      - /home/elpulso/htdocs/elpulso.site/public/uploads:/app/public/uploads
     restart: always
 
 volumes:
-  mysql_data_contexto:
+  mysql_data_elpulso:
