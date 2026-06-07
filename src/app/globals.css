@@ -46,38 +46,38 @@
 
 :root {
   --radius: 0.25rem;
-  --background: #F8F9FA; /* Gris muy claro (Fondo principal) */
+  --background: #F8F9FA; /* Fondo principal claro */
   --foreground: #2D3134; /* Gris Oscuro / Carbón (Texto del cuerpo) */
   --card: #FFFFFF; /* Blanco puro para tarjetas */
   --card-foreground: #2D3134;
   --popover: #FFFFFF;
   --popover-foreground: #2D3134;
-  --primary: #E84A3A; /* Rojo Coral / Carmesí (CTA / Acento principal / "El pulso") */
+  --primary: #C59F4A; /* Mostaza / Oro Viejo (CTA / Acento principal) */
   --primary-foreground: #FFFFFF;
-  --secondary: #0F2C59; /* Azul Marino / Azul Profundo (Títulos, navbar, footer / "PULS") */
+  --secondary: #061C3F; /* Azul Marino Oscuro / Navy (Títulos, navbar, footer) */
   --secondary-foreground: #FFFFFF;
   --muted: #F1F3F5; /* Gris claro neutro para contraste */
-  --muted-foreground: #707A8A; /* Gris Medio (Subtítulos, fechas, autor) */
-  --accent: #20B5C0; /* Cian / Turquesa Claro (Acento secundario / hover) */
+  --muted-foreground: #708A81; /* Gris Verdoso Claro (Textos secundarios, fechas) */
+  --accent: #85769F; /* Morado Lavanda Medio (Interacciones, hovers, etiquetas) */
   --accent-foreground: #FFFFFF;
   --destructive: #E84A3A;
   --destructive-foreground: #FFFFFF;
-  --border: #DEE2E6; /* Borde sutil adaptado */
+  --border: #DEE2E6; /* Borde sutil */
   --input: #DEE2E6;
-  --ring: #E84A3A;
-  --chart-1: #0F2C59;
-  --chart-2: #E84A3A;
-  --chart-3: #20B5C0;
-  --chart-4: #707A8A;
+  --ring: #C59F4A;
+  --chart-1: #061C3F;
+  --chart-2: #C59F4A;
+  --chart-3: #85769F;
+  --chart-4: #708A81;
   --chart-5: #F8F9FA;
   --sidebar: #FFFFFF;
   --sidebar-foreground: #2D3134;
-  --sidebar-primary: #0F2C59;
+  --sidebar-primary: #061C3F;
   --sidebar-primary-foreground: #FFFFFF;
   --sidebar-accent: #F1F3F5;
   --sidebar-accent-foreground: #2D3134;
   --sidebar-border: #DEE2E6;
-  --sidebar-ring: #E84A3A;
+  --sidebar-ring: #C59F4A;
 }
 
 .dark {
@@ -87,32 +87,32 @@
   --card-foreground: #F8F9FA;
   --popover: #121A2A;
   --popover-foreground: #F8F9FA;
-  --primary: #E84A3A; /* Rojo Coral */
+  --primary: #C59F4A; /* Mostaza */
   --primary-foreground: #FFFFFF;
-  --secondary: #0F2C59; /* Azul Marino */
+  --secondary: #061C3F; /* Azul Marino */
   --secondary-foreground: #FFFFFF;
   --muted: #1A2436; /* Contraste oscuro */
-  --muted-foreground: #8A98A8; /* Gris medio adaptado a dark */
-  --accent: #20B5C0; /* Cian / Turquesa Claro */
+  --muted-foreground: #708A81; /* Gris Verdoso Claro */
+  --accent: #85769F; /* Morado Lavanda Medio */
   --accent-foreground: #FFFFFF;
   --destructive: #E84A3A;
   --destructive-foreground: #FFFFFF;
   --border: #1E293B;
   --input: #1E293B;
-  --ring: #E84A3A;
-  --chart-1: #20B5C0;
-  --chart-2: #E84A3A;
-  --chart-3: #0F2C59;
-  --chart-4: #8A98A8;
+  --ring: #C59F4A;
+  --chart-1: #85769F;
+  --chart-2: #C59F4A;
+  --chart-3: #061C3F;
+  --chart-4: #708A81;
   --chart-5: #0B0F19;
   --sidebar: #0B0F19;
   --sidebar-foreground: #F8F9FA;
-  --sidebar-primary: #E84A3A;
+  --sidebar-primary: #C59F4A;
   --sidebar-primary-foreground: #FFFFFF;
   --sidebar-accent: #1A2436;
   --sidebar-accent-foreground: #F8F9FA;
   --sidebar-border: #1E293B;
-  --sidebar-ring: #E84A3A;
+  --sidebar-ring: #C59F4A;
 }
 
 @layer base {
