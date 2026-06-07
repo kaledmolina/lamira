@@ -46,73 +46,73 @@
 
 :root {
   --radius: 0.25rem;
-  --background: #ffffff;
-  --foreground: #1A1D29;
-  --card: #ffffff;
-  --card-foreground: #1A1D29;
-  --popover: #ffffff;
-  --popover-foreground: #1A1D29;
-  --primary: #5E31A2;
-  --primary-foreground: #ffffff;
-  --secondary: #1A1D29;
-  --secondary-foreground: #ffffff;
-  --muted: #f4f6f8;
-  --muted-foreground: #5a6e7f;
-  --accent: #F0A800;
-  --accent-foreground: #1A1D29;
-  --destructive: #E85243;
-  --destructive-foreground: #ffffff;
-  --border: #e2e8f0;
-  --input: #e2e8f0;
-  --ring: #5E31A2;
-  --chart-1: #5E31A2;
-  --chart-2: #1A1D29;
-  --chart-3: #F0A800;
-  --chart-4: #E85243;
-  --chart-5: #1A1D29;
-  --sidebar: #f8fafc;
-  --sidebar-foreground: #1A1D29;
-  --sidebar-primary: #5E31A2;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #f1f5f9;
-  --sidebar-accent-foreground: #5E31A2;
-  --sidebar-border: #e2e8f0;
-  --sidebar-ring: #5E31A2;
+  --background: #FFFFFF;
+  --foreground: #1E1B64; /* Azul Marino */
+  --card: #FFFFFF;
+  --card-foreground: #1E1B64;
+  --popover: #FFFFFF;
+  --popover-foreground: #1E1B64;
+  --primary: #29C1B1; /* Turquesa / Aqua */
+  --primary-foreground: #FFFFFF;
+  --secondary: #1E1B64; /* Azul Marino */
+  --secondary-foreground: #FFFFFF;
+  --muted: #F4F6FB; /* Blanco neutro suave */
+  --muted-foreground: #52508A; /* Azul Marino suave */
+  --accent: #F3586C; /* Rosa Coral / Salmón */
+  --accent-foreground: #FFFFFF;
+  --destructive: #F3586C;
+  --destructive-foreground: #FFFFFF;
+  --border: #E2E2F0; /* Borde con tinte azul marino */
+  --input: #E2E2F0;
+  --ring: #29C1B1;
+  --chart-1: #1E1B64;
+  --chart-2: #29C1B1;
+  --chart-3: #F3586C;
+  --chart-4: #3A7FD5; /* Azul Eléctrico */
+  --chart-5: #7D55BE; /* Morado / Violeta */
+  --sidebar: #F8FAFC;
+  --sidebar-foreground: #1E1B64;
+  --sidebar-primary: #29C1B1;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #E2E2F0;
+  --sidebar-accent-foreground: #1E1B64;
+  --sidebar-border: #E2E2F0;
+  --sidebar-ring: #29C1B1;
 }
 
 .dark {
-  --background: #1A1D29;
-  --foreground: #f8fafc;
-  --card: #24293a;
-  --card-foreground: #f8fafc;
-  --popover: #24293a;
-  --popover-foreground: #f8fafc;
-  --primary: #5E31A2;
-  --primary-foreground: #ffffff;
-  --secondary: #1A1D29;
-  --secondary-foreground: #ffffff;
-  --muted: #24293a;
-  --muted-foreground: #94a3b8;
-  --accent: #F0A800;
-  --accent-foreground: #1A1D29;
-  --destructive: #E85243;
-  --destructive-foreground: #ffffff;
-  --border: #2e354f;
-  --input: #2e354f;
-  --ring: #5E31A2;
-  --chart-1: #5E31A2;
-  --chart-2: #1A1D29;
-  --chart-3: #F0A800;
-  --chart-4: #E85243;
-  --chart-5: #ffffff;
-  --sidebar: #151822;
-  --sidebar-foreground: #f8fafc;
-  --sidebar-primary: #5E31A2;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #24293a;
-  --sidebar-accent-foreground: #f8fafc;
-  --sidebar-border: #2e354f;
-  --sidebar-ring: #5E31A2;
+  --background: #0F0D35; /* Azul Marino Profundo / Negro */
+  --foreground: #FFFFFF;
+  --card: #1A1854; /* Azul Marino Oscuro */
+  --card-foreground: #FFFFFF;
+  --popover: #1A1854;
+  --popover-foreground: #FFFFFF;
+  --primary: #29C1B1; /* Turquesa / Aqua */
+  --primary-foreground: #FFFFFF;
+  --secondary: #3A7FD5; /* Azul Eléctrico */
+  --secondary-foreground: #FFFFFF;
+  --muted: #1E1B64; /* Azul Marino */
+  --muted-foreground: #A9A7DF; /* Azul Marino Suave/Grisáceo */
+  --accent: #F3586C; /* Rosa Coral / Salmón */
+  --accent-foreground: #FFFFFF;
+  --destructive: #F3586C;
+  --destructive-foreground: #FFFFFF;
+  --border: #2B277D; /* Borde oscuro con tinte marino */
+  --input: #2B277D;
+  --ring: #29C1B1;
+  --chart-1: #29C1B1;
+  --chart-2: #3A7FD5;
+  --chart-3: #F3586C;
+  --chart-4: #7D55BE;
+  --chart-5: #FAB216; /* Amarillo / Oro */
+  --sidebar: #090822;
+  --sidebar-foreground: #FFFFFF;
+  --sidebar-primary: #29C1B1;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #1A1854;
+  --sidebar-accent-foreground: #FFFFFF;
+  --sidebar-border: #2B277D;
+  --sidebar-ring: #29C1B1;
 }
 
 @layer base {
