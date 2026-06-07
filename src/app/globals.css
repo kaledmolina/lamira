@@ -46,73 +46,73 @@
 
 :root {
   --radius: 0.25rem;
-  --background: #FFFFFF;
-  --foreground: #1E1B64; /* Azul Marino */
-  --card: #FFFFFF;
-  --card-foreground: #1E1B64;
+  --background: #F7F5F0; /* Blanco Roto / Marfil (Fondo principal) */
+  --foreground: #162836; /* Azul Oscuro / Azul Noche (Texto principal) */
+  --card: #FFFFFF; /* Blanco puro para tarjetas */
+  --card-foreground: #162836;
   --popover: #FFFFFF;
-  --popover-foreground: #1E1B64;
-  --primary: #29C1B1; /* Turquesa / Aqua */
+  --popover-foreground: #162836;
+  --primary: #B36546; /* Terracota / Óxido (Color de acento / CTA) */
   --primary-foreground: #FFFFFF;
-  --secondary: #1E1B64; /* Azul Marino */
+  --secondary: #64284D; /* Púrpura Berenjena / Vino (Color secundario) */
   --secondary-foreground: #FFFFFF;
-  --muted: #F4F6FB; /* Blanco neutro suave */
-  --muted-foreground: #52508A; /* Azul Marino suave */
-  --accent: #F3586C; /* Rosa Coral / Salmón */
+  --muted: #EBE8E0; /* Blanco roto más oscuro para contraste */
+  --muted-foreground: #5E6D7A; /* Azul noche suave para textos secundarios */
+  --accent: #817A4E; /* Verde Oliva / Musgo (Complementario) */
   --accent-foreground: #FFFFFF;
-  --destructive: #F3586C;
+  --destructive: #B36546; /* Terracota / Óxido */
   --destructive-foreground: #FFFFFF;
-  --border: #E2E2F0; /* Borde con tinte azul marino */
-  --input: #E2E2F0;
-  --ring: #29C1B1;
-  --chart-1: #1E1B64;
-  --chart-2: #29C1B1;
-  --chart-3: #F3586C;
-  --chart-4: #3A7FD5; /* Azul Eléctrico */
-  --chart-5: #7D55BE; /* Morado / Violeta */
-  --sidebar: #F8FAFC;
-  --sidebar-foreground: #1E1B64;
-  --sidebar-primary: #29C1B1;
+  --border: #D9D5CD; /* Borde sutil adaptado al marfil */
+  --input: #D9D5CD;
+  --ring: #B36546;
+  --chart-1: #162836;
+  --chart-2: #B36546;
+  --chart-3: #64284D;
+  --chart-4: #817A4E;
+  --chart-5: #F7F5F0;
+  --sidebar: #F7F5F0;
+  --sidebar-foreground: #162836;
+  --sidebar-primary: #B36546;
   --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #E2E2F0;
-  --sidebar-accent-foreground: #1E1B64;
-  --sidebar-border: #E2E2F0;
-  --sidebar-ring: #29C1B1;
+  --sidebar-accent: #EBE8E0;
+  --sidebar-accent-foreground: #162836;
+  --sidebar-border: #D9D5CD;
+  --sidebar-ring: #B36546;
 }
 
 .dark {
-  --background: #0F0D35; /* Azul Marino Profundo / Negro */
-  --foreground: #FFFFFF;
-  --card: #1A1854; /* Azul Marino Oscuro */
-  --card-foreground: #FFFFFF;
-  --popover: #1A1854;
-  --popover-foreground: #FFFFFF;
-  --primary: #29C1B1; /* Turquesa / Aqua */
+  --background: #0B141B; /* Versión más oscura de Azul Noche */
+  --foreground: #F7F5F0; /* Blanco Roto / Marfil */
+  --card: #162836; /* Azul Oscuro / Azul Noche */
+  --card-foreground: #F7F5F0;
+  --popover: #162836;
+  --popover-foreground: #F7F5F0;
+  --primary: #B36546; /* Terracota / Óxido */
   --primary-foreground: #FFFFFF;
-  --secondary: #3A7FD5; /* Azul Eléctrico */
+  --secondary: #64284D; /* Púrpura Berenjena / Vino */
   --secondary-foreground: #FFFFFF;
-  --muted: #1E1B64; /* Azul Marino */
-  --muted-foreground: #A9A7DF; /* Azul Marino Suave/Grisáceo */
-  --accent: #F3586C; /* Rosa Coral / Salmón */
+  --muted: #1F3647; /* Azul noche intermedio */
+  --muted-foreground: #9EABB6; /* Azul noche suave/grisáceo */
+  --accent: #817A4E; /* Verde Oliva / Musgo */
   --accent-foreground: #FFFFFF;
-  --destructive: #F3586C;
+  --destructive: #B36546;
   --destructive-foreground: #FFFFFF;
-  --border: #2B277D; /* Borde oscuro con tinte marino */
-  --input: #2B277D;
-  --ring: #29C1B1;
-  --chart-1: #29C1B1;
-  --chart-2: #3A7FD5;
-  --chart-3: #F3586C;
-  --chart-4: #7D55BE;
-  --chart-5: #FAB216; /* Amarillo / Oro */
-  --sidebar: #090822;
-  --sidebar-foreground: #FFFFFF;
-  --sidebar-primary: #29C1B1;
+  --border: #233C50; /* Borde oscuro con base Azul Noche */
+  --input: #233C50;
+  --ring: #B36546;
+  --chart-1: #B36546;
+  --chart-2: #162836;
+  --chart-3: #64284D;
+  --chart-4: #817A4E;
+  --chart-5: #F7F5F0;
+  --sidebar: #0B141B;
+  --sidebar-foreground: #F7F5F0;
+  --sidebar-primary: #B36546;
   --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #1A1854;
-  --sidebar-accent-foreground: #FFFFFF;
-  --sidebar-border: #2B277D;
-  --sidebar-ring: #29C1B1;
+  --sidebar-accent: #162836;
+  --sidebar-accent-foreground: #F7F5F0;
+  --sidebar-border: #233C50;
+  --sidebar-ring: #B36546;
 }
 
 @layer base {
